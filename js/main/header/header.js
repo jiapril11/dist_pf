@@ -158,6 +158,8 @@ $(document).ready(function(){
 		e.preventDefault();
 		$rwdGnb.fadeIn(300, function(){
 			$('body').css({overflowY: 'hidden'})
+		}).bind('touchmove', function(e){
+			e.preventDefault();
 		});
 
 	});
@@ -165,7 +167,7 @@ $(document).ready(function(){
 	$allMenu_clx.on('click', function(e){
 		e.preventDefault();
 		$rwdGnb.fadeOut(300);
-		$('body').css({overflowY: 'auto'})
+		$('body').css({overflowY: 'auto'}).unbind('touchmove');
 	})
 
 
