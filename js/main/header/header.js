@@ -157,6 +157,7 @@ $(document).ready(function(){
 	$allMenu.on('click', function(e){
 		e.preventDefault();
 		$rwdGnb.fadeIn(300);
+
 	});
 
 	$allMenu_clx.on('click', function(e){

@@ -10,6 +10,7 @@ $(document).ready(function(){
     var $prev;
     var $next;
     var speed;
+    var isAnimate_BI;
 
     function initDOM_brand(selector){
         $wrap = $(selector);
@@ -17,6 +18,7 @@ $(document).ready(function(){
         $prev = $wrap.find('.prev');
         $next = $wrap.find('.next');
         speed = 500;
+        isAnimate_BI = true;
     }
 
     function init_brand(){
@@ -35,6 +37,7 @@ $(document).ready(function(){
     }
 
     function resizing_brand(num){
+        
         $banner.css({marginLeft : (-100/num)+'%'});
 
         $prev.off();
@@ -42,20 +45,41 @@ $(document).ready(function(){
 
         $prev.on('click', function(e){
             e.preventDefault();
+
+            if(isAnimate_BI){
+                isAnimate_BI = false;
+
+                $banner.animate({marginLeft : '0'}, speed, function(){
+                    $(this).children('li').last().prependTo(this);
+                    $(this).css({marginLeft : (-100/num)+'%'});
+
+                    setTimeout(function(){
+                        isAnimate_BI = true;
+                    }, speed)
+                });
+
+            }
             
-            $banner.animate({marginLeft : '0'}, speed, function(){
-                $(this).children('li').last().prependTo(this);
-                $(this).css({marginLeft : (-100/num)+'%'});
-            });
+            
         });
     
         $next.on('click', function(e){
             e.preventDefault();
     
-            $banner.animate({marginLeft : (-100/num) * 2 +'%'}, speed, function(){
-                $(this).children('li').first().appendTo(this);
-                $(this).css({marginLeft : (-100/num)+'%'});
-            });
+            if(isAnimate_BI){
+                isAnimate_BI = false;
+
+                $banner.animate({marginLeft : (-100/num) * 2 +'%'}, speed, function(){
+                    $(this).children('li').first().appendTo(this);
+                    $(this).css({marginLeft : (-100/num)+'%'});
+
+                    setTimeout(function(){
+                        isAnimate_BI = true;
+                    }, speed)
+                });
+                
+            }
+            
         });
     }
     
@@ -328,6 +352,7 @@ $(document).ready(function(){
 	$allMenu.on('click', function(e){
 		e.preventDefault();
 		$rwdGnb.fadeIn(300);
+
 	});
 
 	$allMenu_clx.on('click', function(e){
