@@ -20,6 +20,7 @@ function initDOM_cookie(){
     $header = $('#header');
     $visual = $('#visual');
     scrollTop = $(window).scrollTop();
+    window_wid = $('body').width();
 }
 
 function init_cookie(){
@@ -29,6 +30,9 @@ function init_cookie(){
         $header.css({top: 60})
     }else if(cookieData_arr.indexOf('today=done')<0 && scrollTop > 60){
         $cookieBox.show().addClass('on');
+        $header.css({top: 0})
+    }else if(cookieData_arr.indexOf('today=done')>=0 && window_wid < 1179){
+        $visual.animate({martinTop: '60px'})
         $header.css({top: 0})
     }else{
         $cookieBox.hide().removeClass('on');
@@ -45,6 +49,9 @@ function eventBinding_cookie(){
         }
         $cookieBox.stop().animate({top:-60},500).removeClass('on');
         $header.stop().animate({top : 0}, 500);
+        if(window_wid < 1179){
+            $visual.stop().css({marginTop: '60px'})
+        }
     });
 }
 
