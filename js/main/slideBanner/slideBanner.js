@@ -2,7 +2,9 @@
 $(document).ready(function(){
 
     var URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
-    var key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
+    // var key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
+    var key = 'AIzaSyBUi4NF7udfrufp7iJ5qgCxCES8XOLok7I';
+
     var playlistId = 'PLfwNfduH1_mBzCB0d8hL23Ni0iwTxyKVm';
     var options = {
         part: 'snippet',
@@ -16,21 +18,27 @@ $(document).ready(function(){
     var $slideBanner_next = $('#slideBanner .next');
     var $slideBanner_prev = $('#slideBanner .prev');
 
-    slideBanner_rwd();
-    loadData();
+    var version = navigator.userAgent;
+    // console.log(version);
 
-    $(window).on('resize', slideBanner_rwd);
-
-    $slideBanner_ul.children('li').last().prependTo($slideBanner_ul);
-
-    $('body').on('click', '#slideBanner li', function(){
-        var video_id = $(this).attr('data-vid');
-        create_popUp(video_id);
-    });
-
-    $('body').on('click', '.pop .close', function(){
-        remove_popUp();
-    })
+    if( !/trident/i.test(version)  ){
+        slideBanner_rwd();
+        loadData();
+    
+        $(window).on('resize', slideBanner_rwd);
+    
+        $slideBanner_ul.children('li').last().prependTo($slideBanner_ul);
+    
+        $('body').on('click', '#slideBanner li', function(){
+            var video_id = $(this).attr('data-vid');
+            create_popUp(video_id);
+        });
+    
+        $('body').on('click', '.pop .close', function(){
+            remove_popUp();
+        })
+    }
+    
 
     function slideBanner_rwd(){
         var wid = $(this).width();
@@ -93,8 +101,7 @@ $(document).ready(function(){
         })
     
         .success(function(data){
-            // console.log(data);
-
+            // console.log('youtube:'+data);
             createList(data)
         })
         .error(function(){
@@ -108,6 +115,7 @@ $(document).ready(function(){
             var video_id = item.snippet.resourceId.videoId;
             var title = item.snippet.title;
 
+            // console.log(index, item);
             title = title.replace('(playlist)', '');
 
             $('#slideBanner .slideBanner_wrap > ul')

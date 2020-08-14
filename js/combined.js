@@ -124,6 +124,51 @@ function setCookie(name, value, expiredDate){
     document.cookie = name + '=' + value + '; path=/; expires=' + result + ';'
     }
 //cookie
+$(document).ready(function(){
+
+    var version = navigator.userAgent;
+
+    if( /trident/i.test(version)  ){
+        $('body').addClass('oldIE');
+
+        chgFlex();
+        loadData_IE()
+    }
+
+    function chgFlex(){
+        $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div').css({display: 'block'});
+
+        $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div .txt').css({width: '90%', position: 'absolute', left: '5%', bottom: '5%'})
+    }
+
+    function loadData_IE(){
+        $.ajax({
+            url: './data/slideBanner.json',
+            dataType: 'json'
+        })
+        .success(function(data){
+            $('.oldIE #slideBanner h1').append(
+                $('<h2>').text('sorry, IE does not support Youtube, recommend you to use Chrome browser').css({fontSize: '14px', color: '#777', marginTop: '20px'})
+            )
+            $(data.data).each(function(index){
+                $('.oldIE #slideBanner .slideBanner_wrap > ul').append(
+                    $('<li>').attr('data-index', index)
+                )
+
+            });
+        })
+        .error(function(){
+            console.log('oldIE loading data failed');
+        })
+    }
+});
+
+
+
+
+
+
+    
  //***gnb  시작***
 $(document).ready(function(){
    
@@ -448,7 +493,9 @@ $(document).ready(function(){
 $(document).ready(function(){
 
     var URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
-    var key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
+    // var key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
+    var key = 'AIzaSyBUi4NF7udfrufp7iJ5qgCxCES8XOLok7I';
+
     var playlistId = 'PLfwNfduH1_mBzCB0d8hL23Ni0iwTxyKVm';
     var options = {
         part: 'snippet',
@@ -462,21 +509,27 @@ $(document).ready(function(){
     var $slideBanner_next = $('#slideBanner .next');
     var $slideBanner_prev = $('#slideBanner .prev');
 
-    slideBanner_rwd();
-    loadData();
+    var version = navigator.userAgent;
+    // console.log(version);
 
-    $(window).on('resize', slideBanner_rwd);
-
-    $slideBanner_ul.children('li').last().prependTo($slideBanner_ul);
-
-    $('body').on('click', '#slideBanner li', function(){
-        var video_id = $(this).attr('data-vid');
-        create_popUp(video_id);
-    });
-
-    $('body').on('click', '.pop .close', function(){
-        remove_popUp();
-    })
+    if( !/trident/i.test(version)  ){
+        slideBanner_rwd();
+        loadData();
+    
+        $(window).on('resize', slideBanner_rwd);
+    
+        $slideBanner_ul.children('li').last().prependTo($slideBanner_ul);
+    
+        $('body').on('click', '#slideBanner li', function(){
+            var video_id = $(this).attr('data-vid');
+            create_popUp(video_id);
+        });
+    
+        $('body').on('click', '.pop .close', function(){
+            remove_popUp();
+        })
+    }
+    
 
     function slideBanner_rwd(){
         var wid = $(this).width();
@@ -539,8 +592,7 @@ $(document).ready(function(){
         })
     
         .success(function(data){
-            // console.log(data);
-
+            // console.log('youtube:'+data);
             createList(data)
         })
         .error(function(){
@@ -554,6 +606,7 @@ $(document).ready(function(){
             var video_id = item.snippet.resourceId.videoId;
             var title = item.snippet.title;
 
+            // console.log(index, item);
             title = title.replace('(playlist)', '');
 
             $('#slideBanner .slideBanner_wrap > ul')
