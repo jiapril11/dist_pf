@@ -156,13 +156,16 @@ $(document).ready(function(){
 	//태블릿, 모바일 메뉴
 	$allMenu.on('click', function(e){
 		e.preventDefault();
-		$rwdGnb.fadeIn(300);
+		$rwdGnb.fadeIn(300, function(){
+			$('body').css({overflowY: 'hidden'})
+		});
 
 	});
 
 	$allMenu_clx.on('click', function(e){
 		e.preventDefault();
 		$rwdGnb.fadeOut(300);
+		$('body').css({overflowY: 'auto'})
 	})
 
 
