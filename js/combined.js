@@ -4,6 +4,7 @@ $(document).ready(function(){
     initDOM_cookie();
     init_cookie();
     eventBinding_cookie();
+    
 
 });
 
@@ -45,7 +46,8 @@ function eventBinding_cookie(){
     $clxBox.on('click', function(){
 
         if($('#no_ck').is(':checked')){
-            setCookie('today', 'done', 1)
+            // setCookie('today', 'done', 1)
+            $.cookie('today', 'done', {expires: 1, path: '/'});
         }
         $cookieBox.stop().animate({top:-60},500).removeClass('on');
         $header.stop().animate({top : 0}, 500);
@@ -69,51 +71,6 @@ function setCookie(name, value, expiredDate){
     document.cookie = name + '=' + value + '; path=/; expires=' + result + ';'
     }
 //cookie
-$(document).ready(function(){
-
-    var version = navigator.userAgent;
-
-    if( /trident/i.test(version)  ){
-        $('body').addClass('oldIE');
-
-        chgFlex();
-        loadData_IE()
-    }
-
-    function chgFlex(){
-        $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div').css({display: 'block'});
-
-        $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div .txt').css({width: '90%', position: 'absolute', left: '5%', bottom: '5%'})
-    }
-
-    function loadData_IE(){
-        $.ajax({
-            url: './data/slideBanner.json',
-            dataType: 'json'
-        })
-        .success(function(data){
-            $('.oldIE #slideBanner h1').append(
-                $('<h2>').text('sorry, IE does not support Youtube, recommend you to use Chrome browser').css({fontSize: '14px', color: '#777', marginTop: '20px'})
-            )
-            $(data.data).each(function(index){
-                $('.oldIE #slideBanner .slideBanner_wrap > ul').append(
-                    $('<li>').attr('data-index', index)
-                )
-
-            });
-        })
-        .error(function(){
-            console.log('oldIE loading data failed');
-        })
-    }
-});
-
-
-
-
-
-
-    
 $(document).ready(function(){
 
     initDOM_brand('#brand');
@@ -200,6 +157,51 @@ $(document).ready(function(){
     }
     
 
+$(document).ready(function(){
+
+    var version = navigator.userAgent;
+
+    if( /trident/i.test(version)  ){
+        $('body').addClass('oldIE');
+
+        chgFlex();
+        loadData_IE()
+    }
+
+    function chgFlex(){
+        $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div').css({display: 'block'});
+
+        $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div .txt').css({width: '90%', position: 'absolute', left: '5%', bottom: '5%'})
+    }
+
+    function loadData_IE(){
+        $.ajax({
+            url: './data/slideBanner.json',
+            dataType: 'json'
+        })
+        .success(function(data){
+            $('.oldIE #slideBanner h1').append(
+                $('<h2>').text('sorry, IE does not support Youtube, recommend you to use Chrome browser').css({fontSize: '14px', color: '#777', marginTop: '20px'})
+            )
+            $(data.data).each(function(index){
+                $('.oldIE #slideBanner .slideBanner_wrap > ul').append(
+                    $('<li>').attr('data-index', index)
+                )
+
+            });
+        })
+        .error(function(){
+            console.log('oldIE loading data failed');
+        })
+    }
+});
+
+
+
+
+
+
+    
  //***gnb  시작***
 $(document).ready(function(){
    
