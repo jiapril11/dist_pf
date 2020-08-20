@@ -1,9 +1,21 @@
 //intro 
 $(document).ready(function(){
-    var $wrap = $('#intro');
-    var $btn = $wrap.find('.btn>li');
-    var $slide = $wrap.find('.slide');
+    
+    initDOM_intro('#intro');
+    eventBinding_intro();
+});
 
+var $wrap;
+var $btn;
+var $slide;
+
+function initDOM_intro(selector){
+    $wrap = $(selector);
+    $btn = $wrap.find('.btn>li');
+    $slide = $wrap.find('.slide');
+}
+
+function eventBinding_intro(){
     $btn.on('click', function(e){
         e.preventDefault();
 
@@ -17,5 +29,5 @@ $(document).ready(function(){
         $slide.find('li').removeClass('on');
         $slide.find('li').eq(i).addClass('on')
     })
-});
+}
 //intro

@@ -1,33 +1,54 @@
 //***slideBanner 시작***
 $(document).ready(function(){
 
-    var URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
-    // var key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
-    var key = 'AIzaSyBUi4NF7udfrufp7iJ5qgCxCES8XOLok7I';
-
-    var playlistId = 'PLfwNfduH1_mBzCB0d8hL23Ni0iwTxyKVm';
-    var options = {
-        part: 'snippet',
-        key: key,
-        maxResults : 14,
-        playlistId : playlistId
-    }
-
-    var isAnimated = true;
-    var $slideBanner_ul = $('#slideBanner .slideBanner_wrap ul');
-    var $slideBanner_next = $('#slideBanner .next');
-    var $slideBanner_prev = $('#slideBanner .prev');
-
-    var version = navigator.userAgent;
-    // console.log(version);
+    initDOM_slideBanner()
 
     if( !/trident/i.test(version)  ){
         slideBanner_rwd();
-        loadData();
-    
-        $(window).on('resize', slideBanner_rwd);
-    
+        loadData_slideBanner();
+
         $slideBanner_ul.children('li').last().prependTo($slideBanner_ul);
+    
+        eventBinding_slideBanner();
+    }
+});
+
+    var URL;
+    var key;
+
+    var playlistId;
+    var options;
+
+    var isAnimated;
+    var $slideBanner_ul;
+    var $slideBanner_next;
+    var $slideBanner_prev;
+
+    var version;
+
+    function initDOM_slideBanner(){
+        URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
+    // key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
+        key = 'AIzaSyBUi4NF7udfrufp7iJ5qgCxCES8XOLok7I';
+
+        playlistId = 'PLfwNfduH1_mBzCB0d8hL23Ni0iwTxyKVm';
+        options = {
+            part: 'snippet',
+            key: key,
+            maxResults : 14,
+            playlistId : playlistId
+        }
+
+        isAnimated = true;
+        $slideBanner_ul = $('#slideBanner .slideBanner_wrap ul');
+        $slideBanner_next = $('#slideBanner .next');
+        $slideBanner_prev = $('#slideBanner .prev');
+
+        version = navigator.userAgent;
+    }
+
+    function eventBinding_slideBanner(){
+        $(window).on('resize', slideBanner_rwd);
     
         $('body').on('click', '#slideBanner li', function(){
             var video_id = $(this).attr('data-vid');
@@ -38,7 +59,6 @@ $(document).ready(function(){
             remove_popUp();
         })
     }
-    
 
     function slideBanner_rwd(){
         var wid = $(this).width();
@@ -93,7 +113,7 @@ $(document).ready(function(){
         });
     };//slideBanner_moving
 
-    function loadData(){
+    function loadData_slideBanner(){
         $.ajax({
             url: URL,
             dataType : 'jsonp',
@@ -102,14 +122,14 @@ $(document).ready(function(){
     
         .success(function(data){
             // console.log('youtube:'+data);
-            createList(data)
+            createList_slideBanner(data)
         })
         .error(function(){
             console.log('failed')
         })
     }
 
-    function createList(data){
+    function createList_slideBanner(data){
         $(data.items).each(function(index, item){
             var thumbnail = item.snippet.thumbnails.medium.url;
             var video_id = item.snippet.resourceId.videoId;
@@ -153,5 +173,5 @@ $(document).ready(function(){
         $('.pop').remove();
     }
 
-});
+
 //***slideBanner 끝***

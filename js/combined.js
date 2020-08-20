@@ -1,76 +1,3 @@
-//cookie
-$(document).ready(function(){
-    // console.log(document.cookie);
-    initDOM_cookie();
-    init_cookie();
-    eventBinding_cookie();
-    
-
-});
-
-var cookieData_arr;  
-var $cookieBox;
-var $clxBox;
-var $headerr;
-var scrollTop;
-
-function initDOM_cookie(){
-    cookieData_arr = document.cookie;
-    $cookieBox = $('#cookie');
-    $clxBox = $cookieBox.find('.clx_ck');
-    $header = $('#header');
-    $visual = $('#visual');
-    scrollTop = $(window).scrollTop();
-    window_wid = $('body').width();
-}
-
-function init_cookie(){
-    if(cookieData_arr.indexOf('today=done')<0 && scrollTop < 60){
-        //쿠키가 없을때 실행할 구문
-        $cookieBox.show().addClass('on');
-        $header.css({top: 60})
-    }else if(cookieData_arr.indexOf('today=done')<0 && scrollTop > 60){
-        $cookieBox.show().addClass('on');
-        $header.css({top: 0})
-    }else if(cookieData_arr.indexOf('today=done')>=0 && window_wid < 1179){
-        $visual.animate({martinTop: '60px'})
-        $header.css({top: 0})
-    }else{
-        $cookieBox.hide().removeClass('on');
-        $header.css({top: 0})
-    }
-
-}
-
-function eventBinding_cookie(){
-    $clxBox.on('click', function(){
-
-        if($('#no_ck').is(':checked')){
-            // setCookie('today', 'done', 1)
-            $.cookie('today', 'done', {expires: 1, path: '/'});
-        }
-        $cookieBox.stop().animate({top:-60},500).removeClass('on');
-        $header.stop().animate({top : 0}, 500);
-        if(window_wid < 1179){
-            $visual.stop().css({marginTop: '60px'})
-        }
-    });
-}
-
-function setCookie(name, value, expiredDate){
-    
-    var today = new Date();
-    // console.log('today: ' + today);
-    var duedate = today.getDate() + expiredDate;
-    // console.log('duedate: ' + duedate);
-    today.setDate(duedate)
-    // console.log(today.setDate(duedate));
-    var result = today.toGMTString();
-    // console.log('result: ' + result);
-
-    document.cookie = name + '=' + value + '; path=/; expires=' + result + ';'
-    }
-//cookie
 $(document).ready(function(){
 
     initDOM_brand('#brand');
@@ -165,8 +92,11 @@ $(document).ready(function(){
         $('body').addClass('oldIE');
 
         chgFlex();
-        loadData_IE()
+        addNotice();
+        createList();
     }
+
+});
 
     function chgFlex(){
         $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div').css({display: 'block'});
@@ -174,27 +104,23 @@ $(document).ready(function(){
         $('.oldIE #brand .inner .wrap > article:nth-of-type(3) ul li > div .txt').css({width: '90%', position: 'absolute', left: '5%', bottom: '5%'})
     }
 
-    function loadData_IE(){
-        $.ajax({
-            url: './data/slideBanner.json',
-            dataType: 'json'
-        })
-        .success(function(data){
-            $('.oldIE #slideBanner h1').append(
-                $('<h2>').text('sorry, IE does not support Youtube, recommend you to use Chrome browser').css({fontSize: '14px', color: '#777', marginTop: '20px'})
-            )
-            $(data.data).each(function(index){
-                $('.oldIE #slideBanner .slideBanner_wrap > ul').append(
-                    $('<li>').attr('data-index', index)
-                )
-
-            });
-        })
-        .error(function(){
-            console.log('oldIE loading data failed');
-        })
+    function addNotice(){
+        $('.oldIE #slideBanner h1').append(
+            $('<h2>').text('Sorry, IE does not support Youtube, recommend you to use Chrome browser. Thanks!').css({fontSize: '14px', color: '#777', marginTop: '20px'})
+        )
     }
-});
+    
+    function createList(){
+        for(var i = 0; i < 14; i++){
+            $('.oldIE #slideBanner .slideBanner_wrap > ul').append(
+                $('<li>').attr('data-index', i)
+            )
+        }
+    }
+
+
+
+   
 
 
 
@@ -202,40 +128,148 @@ $(document).ready(function(){
 
 
     
+//cookie
+$(document).ready(function(){
+    // console.log(document.cookie);
+    initDOM_cookie();
+    init_cookie();
+    eventBinding_cookie();
+    
+
+});
+
+var cookieData_arr;  
+var $cookieBox;
+var $clxBox;
+var $headerr;
+var scrollTop;
+
+function initDOM_cookie(){
+    cookieData_arr = document.cookie;
+    $cookieBox = $('#cookie');
+    $clxBox = $cookieBox.find('.clx_ck');
+    $header = $('#header');
+    $visual = $('#visual');
+    scrollTop = $(window).scrollTop();
+    window_wid = $('body').width();
+}
+
+function init_cookie(){
+    if(cookieData_arr.indexOf('today=done')<0 && scrollTop < 60){
+        //쿠키가 없을때 실행할 구문
+        $cookieBox.show().addClass('on');
+        $header.css({top: 60})
+    }else if(cookieData_arr.indexOf('today=done')<0 && scrollTop > 60){
+        $cookieBox.show().addClass('on');
+        $header.css({top: 0})
+    }else if(cookieData_arr.indexOf('today=done')>=0 && window_wid < 1179){
+        $visual.animate({martinTop: '60px'})
+        $header.css({top: 0})
+    }else{
+        $cookieBox.hide().removeClass('on');
+        $header.css({top: 0})
+    }
+
+}
+
+function eventBinding_cookie(){
+    $clxBox.on('click', function(){
+
+        if($('#no_ck').is(':checked')){
+            // setCookie('today', 'done', 1)
+            $.cookie('today', 'done', {expires: 1, path: '/'});
+        }
+        $cookieBox.stop().animate({top:-60},500).removeClass('on');
+        $header.stop().animate({top : 0}, 500);
+        if(window_wid < 1179){
+            $visual.stop().css({marginTop: '60px'})
+        }
+    });
+}
+
+function setCookie(name, value, expiredDate){
+    
+    var today = new Date();
+    // console.log('today: ' + today);
+    var duedate = today.getDate() + expiredDate;
+    // console.log('duedate: ' + duedate);
+    today.setDate(duedate)
+    // console.log(today.setDate(duedate));
+    var result = today.toGMTString();
+    // console.log('result: ' + result);
+
+    document.cookie = name + '=' + value + '; path=/; expires=' + result + ';'
+    }
+//cookie
  //***gnb  시작***
 $(document).ready(function(){
-   
-	var $skipNav = $('#skipNav a');
+	initDOM_header();
 
-	var $header = $('#header');
-	var $gnbLi_1depth = $('#gnb>li');
-	var $h1 = $header.find('h1>a');
-	var $util = $header.find('#util');
+	cookieChk_header();
+	gnb_rwd();
+	resize_header();
+	scroll_header();
+	mouseEvent_header();
+	focusEvent_header();
+	skipNav_header();
+	rwdMenu();
 
-	var header_ht = $header.height();
-	var gnbBg_color = $header.css('backgroundColor');
-	var speed = 500;
-	var max = 0;
-	var doneSub =true;
+});
+
+	var $skipNav;
+	var $header;
+	var $gnbLi_1depth;
+	var $h1;
+	var $util;
+	
+	var header_ht;
+	var gnbBg_color;
+	var speed;
+	var max;
+	var doneSub;
+
+	var $allMenu;
+	var $rwdGnb;
+	var $allMenu_clx;
+
+	var cookieClass;
+
+function initDOM_header(){
+	$skipNav = $('#skipNav a');
+
+	$header = $('#header');
+	$gnbLi_1depth = $('#gnb>li');
+	$h1 = $header.find('h1>a');
+	$util = $header.find('#util');
+
+	header_ht = $header.height();
+	gnbBg_color = $header.css('backgroundColor');
+	speed = 500;
+	max = 0;
+	doneSub = true;
 	
 	//태블릿, 모바일
-	var $allMenu = $('.allMenu');
-	var $rwdGnb = $('#rwdGnb');
-	var $allMenu_clx = $rwdGnb.children('.clx');
+	$allMenu = $('.allMenu');
+	$rwdGnb = $('#rwdGnb');
+	$allMenu_clx = $rwdGnb.children('.clx');
 
-	var cookieClass = $('#cookie').hasClass('on');
+	cookieClass = $('#cookie').hasClass('on');
+}
 
+function cookieChk_header(){
 	if(cookieClass == true){
 		$header.css({position: 'fixed', top: '60px', left: 0})
 	}
 	if(cookieClass == false){
 		$header.css({position: 'fixed', top: '0px', left: 0})
 	}
+}
 
-	gnb_rwd();
-
+function resize_header(){
 	$(window).on('resize', gnb_rwd);
+}
 
+function scroll_header(){
 	$(window).on('scroll', function(){
 
 		var scrollTop = $(window).scrollTop();
@@ -263,8 +297,9 @@ $(document).ready(function(){
 		}
 
 	});
+}
 
-	//1depth li
+function mouseEvent_header(){
 	$gnbLi_1depth.on('mouseenter', function(){
 		$(this).children('a').addClass('on');
 	});
@@ -272,92 +307,94 @@ $(document).ready(function(){
 	$gnbLi_1depth.on('mouseleave', function(){
 		$(this).children('a').removeClass('on');
 	});
+}
 
-	//탭키로 gnb 메뉴 열고/닫기
+function focusEvent_header(){
 	$gnbLi_1depth.children('a').on('focusin', function(){
 		gnbDown(speed/2);
 	});
 	$gnbLi_1depth.last().children('ul').children('li').last().children('a').on('focusout', function(){
 		gnbUp(speed);
 	});
+}
 
-	//skipNav 탭키 기능
+function skipNav_header(){
 	$skipNav.on('focusin', function(){
 		$(this).addClass('on');
 	});
 	$skipNav.on('focusout', function(){
 		$(this).removeClass('on');
 	});
-	
-	function getHeight(){
-		$gnbLi_1depth.each(function(){//2depth ul 중 가장 큰 높이값 찾기
-			var $2depth_height = $(this).children('ul').height();
-			max = Math.max($2depth_height, max);
-		});
-	}
-	
-	function setUlHeight(){
-		//2depth의 높이가 모두 다르니 가장 큰 값으로 높이값 통일시켜주기
-		$gnbLi_1depth.children('ul').height(max);
-		$('.gnbBg').css({height : max + 80})
-	}
+}
 
-	function gnbDown(speed){
-		gnbBg_color = $header.css('backgroundColor');
-		var isGnbBg = $('.gnbBg').length;
-		if(!isGnbBg){
-			$header.prepend(
-				$('<div class="gnbBg">').css({
-					width: '100%', height: max+80, position: 'absolute', top: header_ht, left: 0, borderTop: '1px solid rgba(0, 0, 0, 0.05)', boxSizing: 'border-box',background: gnbBg_color, zIndex: 1, display: 'none', boxShadow: '5px 5px 10px rgba(0,0,0,0.1)'
-				})
-			)
-		}
-		if(doneSub){
-			doneSub = false;
-			$gnbLi_1depth.children('ul').stop().slideDown(speed);
-			$('.gnbBg').stop().slideDown(speed);
-		}
+function getHeight(){
+	$gnbLi_1depth.each(function(){//2depth ul 중 가장 큰 높이값 찾기
+		var $2depth_height = $(this).children('ul').height();
+		max = Math.max($2depth_height, max);
+	});
+}
 
-	}
+function setUlHeight(){
+	//2depth의 높이가 모두 다르니 가장 큰 값으로 높이값 통일시켜주기
+	$gnbLi_1depth.children('ul').height(max);
+	$('.gnbBg').css({height : max + 80})
+}
 
-	function gnbUp(speed){
-		$gnbLi_1depth.children('ul').stop().slideUp(speed);
-		$('.gnbBg').stop().slideUp(speed, function(){
-			$(this).remove();
-			doneSub = true;
-		});
-	}
-
-	function gnb_rwd(){
-		var wid = $(window).width();
-
-		//웹사이즈
-		if(wid > 1179){
-			$rwdGnb.hide();
-
-			getHeight();
-			setUlHeight();
-
-			$header.on('mouseenter', function(){
-				gnbDown(speed/2);
+function gnbDown(speed){
+	gnbBg_color = $header.css('backgroundColor');
+	var isGnbBg = $('.gnbBg').length;
+	if(!isGnbBg){
+		$header.prepend(
+			$('<div class="gnbBg">').css({
+				width: '100%', height: max+80, position: 'absolute', top: header_ht, left: 0, borderTop: '1px solid rgba(0, 0, 0, 0.05)', boxSizing: 'border-box',background: gnbBg_color, zIndex: 1, display: 'none', boxShadow: '5px 5px 10px rgba(0,0,0,0.1)'
 			})
-		
-			$header.on('mouseleave', function(){
-				gnbUp(speed/2);
-			})
-		
-		
-		}else{ //타블렛이하
-
-			$header.off();
-			$h1.off();
-			$util.off();
-
-		}
+		)
+	}
+	if(doneSub){
+		doneSub = false;
+		$gnbLi_1depth.children('ul').stop().slideDown(speed);
+		$('.gnbBg').stop().slideDown(speed);
 	}
 
+}
 
-	//태블릿, 모바일 메뉴
+function gnbUp(speed){
+	$gnbLi_1depth.children('ul').stop().slideUp(speed);
+	$('.gnbBg').stop().slideUp(speed, function(){
+		$(this).remove();
+		doneSub = true;
+	});
+}
+
+function gnb_rwd(){
+	var wid = $(window).width();
+
+	//웹사이즈
+	if(wid > 1179){
+		$rwdGnb.hide();
+
+		getHeight();
+		setUlHeight();
+
+		$header.on('mouseenter', function(){
+			gnbDown(speed/2);
+		})
+	
+		$header.on('mouseleave', function(){
+			gnbUp(speed/2);
+		})
+	
+	
+	}else{ //타블렛이하
+
+		$header.off();
+		$h1.off();
+		$util.off();
+
+	}
+}
+
+function rwdMenu(){
 	$allMenu.on('click', function(e){
 		e.preventDefault();
 		$rwdGnb.fadeIn(300, function(){
@@ -374,16 +411,26 @@ $(document).ready(function(){
 		$('body').css({overflowY: 'auto'}).unbind('touchmove');
 	})
 
-
-
-});
+}
 //***gnb  끝***
 //intro 
 $(document).ready(function(){
-    var $wrap = $('#intro');
-    var $btn = $wrap.find('.btn>li');
-    var $slide = $wrap.find('.slide');
+    
+    initDOM_intro('#intro');
+    eventBinding_intro();
+});
 
+var $wrap;
+var $btn;
+var $slide;
+
+function initDOM_intro(selector){
+    $wrap = $(selector);
+    $btn = $wrap.find('.btn>li');
+    $slide = $wrap.find('.slide');
+}
+
+function eventBinding_intro(){
     $btn.on('click', function(e){
         e.preventDefault();
 
@@ -397,7 +444,7 @@ $(document).ready(function(){
         $slide.find('li').removeClass('on');
         $slide.find('li').eq(i).addClass('on')
     })
-});
+}
 //intro
 $(document).ready(function(){
 
@@ -475,6 +522,7 @@ $(document).ready(function(){
         if(scrollTop >= pos_mainCtt - base && scrollTop < pos_tabMenu - base){
             $scrollNav_a.removeClass('on');
             $scrollNav_li.eq(2).children('a').addClass('on');
+            $('#main_content article').addClass('on');
         }
         if(scrollTop >= pos_tabMenu - base && scrollTop < pos_news - base){
             $scrollNav_a.removeClass('on');
@@ -531,33 +579,54 @@ $(document).ready(function(){
 //***slideBanner 시작***
 $(document).ready(function(){
 
-    var URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
-    // var key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
-    var key = 'AIzaSyBUi4NF7udfrufp7iJ5qgCxCES8XOLok7I';
-
-    var playlistId = 'PLfwNfduH1_mBzCB0d8hL23Ni0iwTxyKVm';
-    var options = {
-        part: 'snippet',
-        key: key,
-        maxResults : 14,
-        playlistId : playlistId
-    }
-
-    var isAnimated = true;
-    var $slideBanner_ul = $('#slideBanner .slideBanner_wrap ul');
-    var $slideBanner_next = $('#slideBanner .next');
-    var $slideBanner_prev = $('#slideBanner .prev');
-
-    var version = navigator.userAgent;
-    // console.log(version);
+    initDOM_slideBanner()
 
     if( !/trident/i.test(version)  ){
         slideBanner_rwd();
-        loadData();
-    
-        $(window).on('resize', slideBanner_rwd);
-    
+        loadData_slideBanner();
+
         $slideBanner_ul.children('li').last().prependTo($slideBanner_ul);
+    
+        eventBinding_slideBanner();
+    }
+});
+
+    var URL;
+    var key;
+
+    var playlistId;
+    var options;
+
+    var isAnimated;
+    var $slideBanner_ul;
+    var $slideBanner_next;
+    var $slideBanner_prev;
+
+    var version;
+
+    function initDOM_slideBanner(){
+        URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
+    // key = 'AIzaSyBOvFCJjGhROCVSgx-ir_F-fjNyUKWF6dM';
+        key = 'AIzaSyBUi4NF7udfrufp7iJ5qgCxCES8XOLok7I';
+
+        playlistId = 'PLfwNfduH1_mBzCB0d8hL23Ni0iwTxyKVm';
+        options = {
+            part: 'snippet',
+            key: key,
+            maxResults : 14,
+            playlistId : playlistId
+        }
+
+        isAnimated = true;
+        $slideBanner_ul = $('#slideBanner .slideBanner_wrap ul');
+        $slideBanner_next = $('#slideBanner .next');
+        $slideBanner_prev = $('#slideBanner .prev');
+
+        version = navigator.userAgent;
+    }
+
+    function eventBinding_slideBanner(){
+        $(window).on('resize', slideBanner_rwd);
     
         $('body').on('click', '#slideBanner li', function(){
             var video_id = $(this).attr('data-vid');
@@ -568,7 +637,6 @@ $(document).ready(function(){
             remove_popUp();
         })
     }
-    
 
     function slideBanner_rwd(){
         var wid = $(this).width();
@@ -623,7 +691,7 @@ $(document).ready(function(){
         });
     };//slideBanner_moving
 
-    function loadData(){
+    function loadData_slideBanner(){
         $.ajax({
             url: URL,
             dataType : 'jsonp',
@@ -632,14 +700,14 @@ $(document).ready(function(){
     
         .success(function(data){
             // console.log('youtube:'+data);
-            createList(data)
+            createList_slideBanner(data)
         })
         .error(function(){
             console.log('failed')
         })
     }
 
-    function createList(data){
+    function createList_slideBanner(data){
         $(data.items).each(function(index, item){
             var thumbnail = item.snippet.thumbnails.medium.url;
             var video_id = item.snippet.resourceId.videoId;
@@ -683,42 +751,53 @@ $(document).ready(function(){
         $('.pop').remove();
     }
 
-});
+
 //***slideBanner 끝***
 $(document).ready(function(){
     
-    var toggleChk = true;
+    eventBinding_visual();
 
+});
+
+var toggleChk = true;
+
+function eventBinding_visual(){
+    
     $('.toggle').on('click', function(){
 
         var window_wid = $(window).width();
         var i = $(this).parent('article').index();
+        var $this = $(this);
 
         if(toggleChk && window_wid > 1179){
-            $('article').removeClass('on');
-            $('.toggle').removeClass('on');
-  
-            $(this).parent('article').addClass('on');
-            $(this).addClass('on');
-
-            setTimeout(function(){
-                $('article').eq(i).children('.txt').fadeIn(500);
-                toggleChk = false;
-            },500)
-
-           
+            activeMotion_visual($this, i);
         }else{
-            $('article').removeClass('on');
-            $('article').children('.txt').hide();
-            
-            setTimeout(function(){
-                $('.toggle').removeClass('on');            
-                toggleChk = true;
-            },500)
-            
+            inactiveMotion_visual();
         }
         
     });
+}
 
+function activeMotion_visual(item, index){
+    $('article').removeClass('on');
+            $('.toggle').removeClass('on');
+  
+            $(item).parent('article').addClass('on');
+            $(item).addClass('on');
 
-});
+            setTimeout(function(){
+                $('article').eq(index).children('.txt').fadeIn(500);
+                toggleChk = false;
+            },500)
+
+}
+
+function inactiveMotion_visual(){
+    $('article').removeClass('on');
+    $('article').children('.txt').hide();
+    
+    setTimeout(function(){
+        $('.toggle').removeClass('on');            
+        toggleChk = true;
+    },500)
+}

@@ -61,6 +61,7 @@ $(document).ready(function(){
         if(scrollTop >= pos_mainCtt - base && scrollTop < pos_tabMenu - base){
             $scrollNav_a.removeClass('on');
             $scrollNav_li.eq(2).children('a').addClass('on');
+            $('#main_content article').addClass('on');
         }
         if(scrollTop >= pos_tabMenu - base && scrollTop < pos_news - base){
             $scrollNav_a.removeClass('on');
