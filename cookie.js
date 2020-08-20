@@ -1,6 +1,6 @@
 //cookie
 $(document).ready(function(){
-    // console.log(document.cookie);
+    console.log('document.cookie');
     initDOM_cookie();
     init_cookie();
     eventBinding_cookie();
