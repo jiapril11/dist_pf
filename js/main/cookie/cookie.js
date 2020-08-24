@@ -4,8 +4,6 @@ $(document).ready(function(){
     initDOM_cookie();
     init_cookie();
     eventBinding_cookie();
-    
-
 });
 
 var cookieData_arr;  
@@ -46,8 +44,8 @@ function eventBinding_cookie(){
     $clxBox.on('click', function(){
 
         if($('#no_ck').is(':checked')){
-            // setCookie('today', 'done', 1)
-            $.cookie('today', 'done', {expires: 1, path: '/'});
+            setCookie('today', 'done', 1)
+            // $.cookie('today', 'done', {expires: 1, path: '/'});
         }
         $cookieBox.stop().animate({top:-60},500).removeClass('on');
         $header.stop().animate({top : 0}, 500);
