@@ -1,10 +1,27 @@
 $(document).ready(function(){
     
+    initDOM_visual();
+    initAnimation_visual()
     eventBinding_visual();
-
 });
 
-var toggleChk = true;
+var toggleChk;
+var h1;
+var h2;
+var p;
+
+function initDOM_visual(){
+    toggleChk = true;
+    $h1 = $('#visual h1');
+    $h2 = $('#visual h2');
+    $p = $('#visual .inner > p');
+}
+
+function initAnimation_visual(){
+    $h1.addClass('on');
+    $h2.addClass('on');
+    $p.addClass('on');
+}
 
 function eventBinding_visual(){
     
